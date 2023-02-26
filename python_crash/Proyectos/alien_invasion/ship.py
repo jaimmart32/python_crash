@@ -25,14 +25,15 @@ class Ship:
         #Bandera de movimiento.
         self.moving_right = False
         self.moving_left = False
+        
     
     def update(self):
         """Actualiza la posición de la nave en funcion de labandera de movimiento"""
         # Actualiza el valor x de la nave, no el rect.
-        if self.moving_right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.ship_speed
 
-        if self.moving_left:
+        if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.ship_speed
 
         # Actualiza el objeto rect de self.x
