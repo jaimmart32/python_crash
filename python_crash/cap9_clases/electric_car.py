@@ -1,46 +1,37 @@
+"""Una clase que se puede usar para representar un coche eléctrico."""
+
+# ALMACENAR VARIAS CLASES EN RELACIONADAS EN UN MODULO
+
 # HERENCIA
 """La herencia es un proceso mediante el cual se puede crear una clase hija que hereda de una clase padre, 
 compartiendo sus métodos y atributos. Además de ello, una clase hija puede sobreescribir los métodos o atributos, 
 o incluso definir unos nuevos. Se puede crear una clase hija con tan solo pasar como parámetro la clase de la que queremos heredar."""
 
-class Car:
-    """Intento de representar un coche."""
+# IMPORTAR UN MODULO DENTRO DE OTRO MODULO
+from car import Car
+
+# La función super() permite llamar un metodo de la clase base/madre.
+class ElectricCar(Car):
+    """Representa aspectos de un coche propios de los vehiculos eléctricos."""
 
     def __init__(self, make, model, year):
-        """Inicializa los atributos para describir un coche."""
-        self.make = make
-        self.model = model
-        self.year = year
-        self.odometer_reading = 0 # Establecer un valor predeterminado para un atributo
+        """Inicializa los atributos base de la clase base/madre/superclase.
+        Luego inicializa los atributos específicos de un coche eléctricomediante la instancia Battery()."""
+        super().__init__(make, model, year)
+        # Definir atributos especificos de la clase derivada
+        self.battery = Battery() # Instancia como atributo
     
 
-    def get_descriptive_name(self):
-        """"Devuelve un nombre descriptivo con el formato adecuado."""
-        long_name = f"{self.year} {self.make} {self.model}"
-        return long_name.title()
+    #def describe_battery(self):
+    #    """Imprime una frase que describe el tamaño de la batería."""
+    #    print(f"This car has a {self.battery_size}-kWh battery.")
     
 
-    def read_odometer(self):
-        """IMprime una oración que indica el kilometraje del coche."""
-        print(f"This car has {self.odometer_reading}km on it.")
-    
-
-    # Modificar atributo traves de un metodo
-    def update_odometer(self, kilometraje):
-        """Configura el kilometraje con el valor dado.
-        Rechaza el cambio si se intenta hacer retroceder el cuentakilometros."""
-        if kilometraje >= self.odometer_reading:
-            self.odometer_reading = kilometraje
-        else:
-            print("You can't roll back an odometer, bad boy!")
-    
-
-    # Aumentar el valor de un atributo a través de un método
-    def increment_odometer(self, km):
-        """Añade la cantidad dada a la lectura del cuentakilometros."""
-        if km > 0:
-            self.odometer_reading += km
-
+    # Anular metodos de la clase base(si se llama a fill_gas tank con un coche eléctrico, 
+    # python ignorará el método de Car y ejecutará el de ElectricCar)
+    def fill_gas_tank(self):
+        """Los coches eléctricos no tienen gasolina y por lo tanto depósito."""
+        print("This car doesn't need a gas tank.")
 
 # INSTANCIAS COMO ATRIBUTOS
 # Podemos descomponer una clase grande en varias pequeñas juntas.
@@ -65,29 +56,12 @@ class Battery:
             range = 315
         
         print(f"This car can go about {range} km on a full charge.")
-        
-# La función super() permite llamar un metodo de la clase base/madre.
-class ElectricCar(Car):
-    """Representa aspectos de un coche propios de los vehiculos eléctricos."""
-
-    def __init__(self, make, model, year):
-        """Inicializa los atributos base de la clase base/madre/superclase.
-        Luego inicializa los atributos específicos de un coche eléctricomediante la instancia Battery()."""
-        super().__init__(make, model, year)
-        # Definir atributos especificos de la clase derivada
-        self.battery = Battery() # Instancia como atributo
     
-
-    #def describe_battery(self):
-    #    """Imprime una frase que describe el tamaño de la batería."""
-    #    print(f"This car has a {self.battery_size}-kWh battery.")
-    
-
-    # Anular metodos de la clase base(si se llama a fill_gas tank con un coche eléctrico, 
-    # python ignorará el método de Car y ejecutará el de ElectricCar)
-    def fill_gas_tank(self):
-        """Los coches eléctricos no tienen gasolina y por lo tanto depósito."""
-        print("This car doesn't need a gas tank.")
+    # 9.9
+    def upgrade_battery(self):
+        """Comprueba el tamaño de la bateria y establece la capacidad en 100."""
+        if self.battery_size != 100:
+            self.battery_size = 100
 
 
 my_tesla = ElectricCar('tesla', 'model s', 2020)
@@ -96,3 +70,10 @@ my_tesla.battery.describe_battery() # acceder al metodo describe_battery() que e
                                     # ElectricCar) Battery que a su vez esta dentro de la instancia my_tesla(ElectricCar). 
 
 my_tesla.battery.get_range()
+
+# 9.9
+nissan_eNV200 = ElectricCar('Nissan', 'eNV200', 2023)
+print(nissan_eNV200.get_descriptive_name())
+nissan_eNV200.battery.get_range()
+nissan_eNV200.battery.upgrade_battery()
+nissan_eNV200.battery.get_range()

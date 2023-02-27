@@ -1,3 +1,6 @@
+
+"""Una clase que se puede usar para representar un coche."""
+
 class Car:
     """Intento de representar un coche."""
 
@@ -35,22 +38,7 @@ class Car:
         """Añade la cantidad dada a la lectura del cuentakilometros."""
         if km > 0:
             self.odometer_reading += km
-    
-    
 
-my_new_car = Car('audi', 'a4', 2019)
-print(my_new_car.get_descriptive_name())
-my_new_car.read_odometer()
-
-# MODIFICAR EL VALOR DE UN ATRIBUTO
-
-my_new_car.odometer_reading = 23
-my_new_car.read_odometer()
-
-
-# A traves de metodo
-my_new_car.update_odometer(430)
-my_new_car.read_odometer()
 
 # Aumentar a traves de método
 my_used_car = Car('subaru', 'outback', 2015)
