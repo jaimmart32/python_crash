@@ -1,0 +1,10 @@
+En Python se puede programar a un alto nivel de abstración.
+En Python se puede crear listas.
+En Python se puede crear diccionarios.
+En Python se puede crear clases.
+En Python se puede aprender sobre OOP.
+En Python se puede hacer de todo.
+En Python se puede crear videojuegos
+En Python se puede desarrollar aplicariones.
+En Python se puede generar scripts
+En Python se puede hackear a Pedro Sanchez.
