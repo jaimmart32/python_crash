@@ -8,14 +8,14 @@ class Alien(Sprite):
         """Inicializa el alien y establece su posición inicial."""
         super().__init__()
         self.screen = ai_game.screen
-    
+
         # Carga al imagen del alien y configura su atrubuto rect.
-        self.image = pygame.image.load('images/alien.bmp')
+        self.image = pygame.image.load('images/rick.bmp')
         self.rect = self.image.get_rect()
-    
+
         # Inicia un nuevo alien cerca de la parte superior izquierda de la pantalla.
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
-    
+
         # Guarda al posición horizontal exacta del alien.
         self.x = float(self.rect.x)
