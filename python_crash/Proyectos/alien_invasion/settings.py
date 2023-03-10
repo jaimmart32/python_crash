@@ -1,4 +1,3 @@
-
 class Settings:
     '''Una clase para guardar toda la configuración de alien invasion'''
 
@@ -12,6 +11,7 @@ class Settings:
 
         # Configuarción de la nave.
         self.ship_speed = 1.5
+        self.ship_limit = 3
 
         #Configuración de las balas
         self.bullet_speed = 1.5
