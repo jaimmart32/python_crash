@@ -7,6 +7,7 @@ from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from button import Button
 
 class AlienInvasion:
     """Clase general para gestionar los recursos y el comportamiento del juego."""
@@ -31,6 +32,9 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
 
         self._create_fleet()
+
+        # Hace el botón Play.
+        self.play_button = Button(self, "Play")
 
     
     def run_game(self):
@@ -58,6 +62,28 @@ class AlienInvasion:
                 self._check_keydown_events(event) 
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+    
+    def _check_play_button(self, mouse_pos):
+        """Inicia un juego nuevo cuando el jugador hace click en Play."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            # Restablece las estadisticas del juego.
+            self.stats.reset_stats()
+            self.stats.game_active = True
+
+            # Se deshace de los aliensy las balas que quedan.
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # Crea una flota nueva y la centra la nave.
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # Oculta el cursor del ratón.
+            pygame.mouse.set_visible(False)
                 
     
     def _check_keydown_events(self, event):
@@ -174,6 +200,10 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+
+        # Dibuja el botón Play si el juego esta activo.
+        if not self.stats.game_active:
+            self.play_button.draw_button()
         pygame.display.flip()
 
     def _ship_hit(self):
@@ -194,6 +224,7 @@ class AlienInvasion:
             sleep(1)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
         '''Comprueba si algun alien ha llegadop al fondo de la pantalla'''
