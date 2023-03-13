@@ -8,6 +8,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from button import Button
+from scoreboard import ScoreBoard
 
 class AlienInvasion:
     """Clase general para gestionar los recursos y el comportamiento del juego."""
@@ -24,8 +25,9 @@ class AlienInvasion:
 
         pygame.display.set_caption("Alien Invasion")
 
-        #Crea una instancia para guardar las estadisticas del juego.
+        #Crea una instancia para guardar las estadisticas del juego y crea un marcador.
         self.stats =  GameStats(self)
+        self.sb = ScoreBoard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -75,6 +77,7 @@ class AlienInvasion:
             # Restablece las estadisticas del juego.
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
 
             # Se deshace de los aliensy las balas que quedan.
             self.aliens.empty()
@@ -135,6 +138,11 @@ class AlienInvasion:
         #Busca las balas que hayan dado a aliens
         # Si hay, se deshace el alien y la bala
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
         if not self.aliens:
             #Destruye balas existentes y crea una flota nueva de nivel superior.
             self.bullets.empty()
@@ -203,6 +211,9 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.aliens.draw(self.screen)
+
+        # Dibuja la información de la puntuación.
+        self.sb.show_score()
 
         # Dibuja el botón Play si el juego esta activo.
         if not self.stats.game_active:
