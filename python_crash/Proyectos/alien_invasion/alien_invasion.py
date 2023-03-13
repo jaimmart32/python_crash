@@ -70,6 +70,8 @@ class AlienInvasion:
         """Inicia un juego nuevo cuando el jugador hace click en Play."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
+            # Restablece las configuraciones dinámicas del juego.
+            self.settings.initialize_dynamic_settings()
             # Restablece las estadisticas del juego.
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -134,9 +136,10 @@ class AlienInvasion:
         # Si hay, se deshace el alien y la bala
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if not self.aliens:
-            #Destruye balas existentes y crea una flota nueva.
+            #Destruye balas existentes y crea una flota nueva de nivel superior.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _update_aliens(self): 
         '''Actualiza la posicion de todos los aliens de la flota'''

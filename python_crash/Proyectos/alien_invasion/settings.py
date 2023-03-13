@@ -2,7 +2,7 @@ class Settings:
     '''Una clase para guardar toda la configuración de alien invasion'''
 
     def __init__(self):
-        '''Inicializa la configuaración dle juego'''
+        '''Inicializa las configuaracines estáticas del juego.'''
 
         # Configuraciń de la pantalla
         self.screen_width  = 1200
@@ -10,21 +10,39 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # Configuarción de la nave.
-        self.ship_speed = 1.5
         self.ship_limit = 3
 
         #Configuración de las balas
-        self.bullet_speed = 1.5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullets_allowed = 7
+        self.bullets_allowed = 5
 
         #Configuraciuon del alien
-        self.alien_speed = 1.0
         self.fleet_drop_speed = 10
+        
+
+        # Rapidez con la que se acelera el juego.
+        self.speedup_scale = 1.3
+
+        self.initialize_dynamic_settings()
+    
+    def initialize_dynamic_settings(self):
+        """Inicializa las configuraciones que cambian durante el juego."""
+        self.ship_speed = 1.5
+        self.bullet_speed = 3.0
+        self.alien_speed = 1.0
+
         # fleet_direction de 1 representa derecha; -1 representa izquierda.
         self.fleet_direction = 1
+    
+    def increase_speed(self):
+        """Incrementa las configuraciones de velocidad(dificultad del juego)."""
+        self.ship_speed *= self.speedup_scale
+        self.bullet_speed *= self.speedup_scale
+        self.alien_speed *= self.speedup_scale
+    
+
 
 
 
