@@ -1,9 +1,13 @@
 import pygame
+# Necesitamos que Ship herede de Sprite para poder crear 
+# un grupo de naves que renderizar como marcador de vidas
+from pygame.sprite import Sprite
 
-class Ship:
+class Ship(Sprite):
     """Una clase para gestionar la nave."""
     def __init__(self, ai_game):
         """Inicializa la nave y configura su posición inicial."""
+        super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
@@ -14,18 +18,14 @@ class Ship:
 
         # Inicia cada nave nueva en el centro inferior de la pantalla.
         self.rect.midbottom = self.screen_rect.midbottom
-        
 
         # Guarda un valor decimal para la poscición horizontal de la nave
         self.x = float(self.rect.x)
 
-
-
-
         #Bandera de movimiento.
         self.moving_right = False
         self.moving_left = False
-        
+    
     
     def update(self):
         """Actualiza la posición de la nave en funcion de labandera de movimiento"""
@@ -39,7 +39,6 @@ class Ship:
         # Actualiza el objeto rect de self.x
         self.rect.x = self.x
         
-    
     def blitme(self):
         """Dibuja la nave en su ubicación actual."""
         self.screen.blit(self.image, self.rect)

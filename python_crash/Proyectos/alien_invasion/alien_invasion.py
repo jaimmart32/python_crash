@@ -78,6 +78,8 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
 
             # Se deshace de los aliensy las balas que quedan.
             self.aliens.empty()
@@ -98,6 +100,8 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
             self.ship.moving_left = True
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
+            with open("high_score.txt", 'w') as file_obj:
+                file_obj.write(str(self.stats.high_score))
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -143,11 +147,16 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
         if not self.aliens:
             #Destruye balas existentes y crea una flota nueva de nivel superior.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+            # Aumenta de nivel.
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_aliens(self): 
         '''Actualiza la posicion de todos los aliens de la flota'''
@@ -223,8 +232,9 @@ class AlienInvasion:
     def _ship_hit(self):
         '''Responde impacto alien y nave'''
         if self.stats.ships_left > 0:
-            # Disminuye ships left
+            # Disminuye ships left y actualiza el marcador de vidas.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             #Se deshace de los aliens y balas restantes
             self.aliens.empty()
